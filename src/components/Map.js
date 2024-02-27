@@ -231,92 +231,7 @@ const countryCoordinates = {
 
 
 
-// const Map = ({ center, zoom }) => {
-//   const [covidData, setCovidData] = useState([]);
-//   const [countryCoordinates, setCountryCoordinates] = useState({});
 
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         // Fetch COVID-19 data
-//         const response = await fetch('https://covid-19-tracking.p.rapidapi.com/v1', {
-//           method: 'GET',
-//           headers: {
-//             'X-RapidAPI-Key': '156cf06ba4msh2c2cdb55142a549p162ba6jsncff6594c9c0b',
-//             'X-RapidAPI-Host': 'covid-19-tracking.p.rapidapi.com',
-//           },
-//         });
-
-//         if (!response.ok) {
-//           throw new Error('Failed to fetch COVID-19 data');
-//         }
-
-//         const data = await response.json();
-//         setCovidData(data);
-//       } catch (error) {
-//         console.error('Error fetching COVID-19 data:', error.message);
-//       }
-//     };
-
-//     fetchData();
-//   }, []);
-
-  // useEffect(() => {
-  //   const fetchCoordinates = async () => {
-  //     const newCountryCoordinates = { ...countryCoordinates };
-  
-  //     for (const country of covidData) {
-  //       const countryName = country.Country_text;
-  
-  //       // Check if the country is already in the coordinates object
-  //       if (!newCountryCoordinates[countryName]) {
-  //         // Use the countryName in the geocoding API
-  //         const url = `https://trueway-geocoding.p.rapidapi.com/Geocode?address=${encodeURIComponent(countryName)}`;
-  //         const options = {
-  //           method: 'GET',
-  //           headers: {
-  //             'X-RapidAPI-Key': '156cf06ba4msh2c2cdb55142a549p162ba6jsncff6594c9c0b',
-  //             'X-RapidAPI-Host': 'trueway-geocoding.p.rapidapi.com'
-  //           }
-  //         };
-  
-  //         try {
-  //           const response = await fetch(url, options);
-  //           const result = await response.json();
-  
-  //           // Extract the coordinates from the result
-  //           const coordinates = result.results[0]?.location;
-  
-  //           // Store the coordinates in the object
-  //           newCountryCoordinates[countryName] = coordinates;
-  
-  //           console.log(`Geocoding result for ${countryName}:`, coordinates);
-  //         } catch (error) {
-  //           console.error(`Error geocoding for ${countryName}:`, error);
-  //         }
-  
-  //         // Introduce a delay of 5 seconds
-  //         await new Promise(resolve => setTimeout(resolve, 5000));
-  //       } else {
-  //         console.log(`Skipping ${countryName}, coordinates already present.`);
-  //       }
-  //     }
-  
-  //     // Update the state with the new coordinates
-  //     setCountryCoordinates(newCountryCoordinates);
-  //   };
-  
-  //   // Fetch coordinates when covidData changes
-  //   if (covidData.length > 0) {
-  //     fetchCoordinates();
-  //   }
-  // }, [covidData, countryCoordinates]);
-  
-
-  // console.log('Map component covidData:', covidData);
-  // Object.entries(countryCoordinates).forEach(([country, coordinates]) => {
-  //   console.log(`Country: ${country}, Coordinates: ${coordinates.lat}, ${coordinates.lng}`);
-  // });
 
   const customIcon = new L.Icon({
     iconUrl: locationPinIcon,
@@ -326,37 +241,79 @@ const countryCoordinates = {
   });
   
   const Map = () => {
+    const [covidData, setCovidData] = useState([]);
+  
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await fetch('https://covid-19-tracking.p.rapidapi.com/v1', {
+            method: 'GET',
+            headers: {
+              'X-RapidAPI-Key': '156cf06ba4msh2c2cdb55142a549p162ba6jsncff6594c9c0b',
+              'X-RapidAPI-Host': 'covid-19-tracking.p.rapidapi.com',
+            },
+          });
+  
+          if (!response.ok) {
+            throw new Error('Failed to fetch COVID-19 data');
+          }
+  
+          const data = await response.json();
+          console.log('CovidMap data:', data); // Log the data
+          setCovidData(data);
+        } catch (error) {
+          console.error('Error fetching COVID-19 data:', error.message);
+        }
+      };
+  
+      fetchData();
+    }, []);
+  
     const center = { lat: 37.0902, lng: -95.7129 };
     const zoom = 4;
   
     return (
       <div className="map">
-        <MapContainer
-          center={center}
-          zoom={zoom}
-          minZoom={3}
-          worldCopyJump={true}
-          maxBoundsViscosity={1.0}
-          style={{ height: '500px', width: '100%' }}
-        >
+        <MapContainer center={center} zoom={zoom} minZoom={3} worldCopyJump={true} maxBoundsViscosity={1.0} style={{ height: '500px', width: '100%' }}>
           <TileLayer
             url="https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=JdbYq0IOmnjd0Jgw8cH7"
             tileSize={512}
             zoomOffset={-1}
-            attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
           />
-  
-          {/* Display markers based on coordinates */}
-          {Object.entries(countryCoordinates).map(([countryName, coordinates]) => (
-            <Marker key={countryName} position={coordinates} icon={customIcon}>
-              <Popup>
-                <strong>{countryName}</strong>
-              </Popup>
-            </Marker>
-          ))}
+          {/* Add markers for each country with COVID-19 data */}
+          {covidData.map((countryData) => {
+            console.log('Country Data:', countryData);
+    
+            // Check if lat and lng exist and are valid
+            if (countryCoordinates[countryData.Country_text] && countryCoordinates[countryData.Country_text].lat && countryCoordinates[countryData.Country_text].lng) {
+              const lat = countryCoordinates[countryData.Country_text].lat;
+              const lng = countryCoordinates[countryData.Country_text].lng;
+    
+              return (
+                <Marker key={countryData.Country_text} position={[lat, lng]} icon={customIcon}>
+                  <Popup>
+                  <div>
+                      <strong>Country:</strong> {countryData.Country_text} <br />
+                      <strong>Last Update:</strong> {countryData["Last Update"]} <br />
+                      <strong>Total Cases:</strong> {countryData["Total Cases_text"]} <br />
+                      <strong>New Cases:</strong> {countryData["New Cases_text"]} <br />
+                      <strong>Total Deaths:</strong> {countryData["Total Deaths_text"]} <br />
+                      <strong>New Deaths:</strong> {countryData["New Deaths_text"]} <br />
+                      <strong>Total Recovered:</strong> {countryData["Total Recovered_text"]} <br />
+                      <strong>Active Cases:</strong> {countryData["Active Cases_text"]} <br />
+                    </div>
+                  </Popup>
+                </Marker>
+              );
+            } else {
+              console.error(`Missing or invalid coordinates for country: ${countryData.Country_text}`); // Log error if coordinates are missing or invalid
+              return null; // Return null to prevent rendering an invalid marker
+            }
+          })}
         </MapContainer>
       </div>
     );
+    
   };
   
   export default Map;
