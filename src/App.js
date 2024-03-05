@@ -7,7 +7,7 @@ import {Route, Routes, useLocation} from 'react-router-dom';
 
 import Sidebar from './components/Sidebar';
 
-import routes from "routes.js";
+import routes from "./routes.js";
 
 function App() {
 
