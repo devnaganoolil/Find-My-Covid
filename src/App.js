@@ -1,19 +1,16 @@
 // src/App.js
 import React from 'react';
 import Map from './components/Map';
+import Perfectscrollbar from 'perfect-scrollbar';
+import {Route, Routes, useLocation} from 'react-router-dom';
 
-// reactstrap components
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  CardTitle,
-  Row,
-  Col,
-} from "reactstrap";
+
+import Sidebar from './components/Sidebar';
+
+import routes from "routes.js";
 
 function App() {
+
   return (
     <div className="App">
       <header className="App-header">
