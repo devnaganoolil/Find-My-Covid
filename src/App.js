@@ -12,23 +12,15 @@ import Sidebar from './components/Sidebar';
 function App() {
 
   return (
-//    <div>
-//      <Router>
-//        <Sidebar />
-//        <Routes>
-//          <Route path="/" exact component={<Home/>} />
-//          <Route path="/reports" component={<Reports/>} />
-//        </Routes>
-//      </Router>
-//    </div>
-//  );
-<div className="App">
-<header className="App-header">
-  <h1>Find My Covid</h1>
-</header>
-  <Map />
-</div>
-);
+    <div>
+      <Router>
+        <Sidebar />
+        <Routes>
+          <Route path="/" exact component={Home} />
+          <Route path="/reports" component={Reports} />
+        </Routes>
+      </Router>
+    </div>
+  );
 }
-
 export default App;

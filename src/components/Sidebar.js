@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NavLink, useLocation , Link} from "react-router-dom";
 import { Nav } from "reactstrap";
 import * as FaIcons from "react-icons/fa";
-import "../App.css";
+import "./Sidebar.css";
 import * as AiIcons from "react-icons/ai";
 import * as IoIcons from "react-icons/io";
 import { SidebarData } from "./SidebarData";

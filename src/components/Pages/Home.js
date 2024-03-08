@@ -11,7 +11,6 @@ function Home() {
         <h1>Find My Covid</h1>
       </header>
         <Map />
-        
     </div>
   );
 }
