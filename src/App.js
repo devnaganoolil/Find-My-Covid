@@ -1,26 +1,34 @@
 // src/App.js
 import React from 'react';
 import Map from './components/Map';
-import Perfectscrollbar from 'perfect-scrollbar';
-import {Route, Routes, useLocation} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Routes, useLocation} from 'react-router-dom';
+import Home from './components/Pages/Home';
+import Reports from './components/Pages/Reports';
 
+import './App.css';
 
 import Sidebar from './components/Sidebar';
-
-import routes from "./routes.js";
 
 function App() {
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Find My Covid</h1>
-      </header>
-      <main>
-        <Map />
-      </main>
-    </div>
-  );
+//    <div>
+//      <Router>
+//        <Sidebar />
+//        <Routes>
+//          <Route path="/" exact component={<Home/>} />
+//          <Route path="/reports" component={<Reports/>} />
+//        </Routes>
+//      </Router>
+//    </div>
+//  );
+<div className="App">
+<header className="App-header">
+  <h1>Find My Covid</h1>
+</header>
+  <Map />
+</div>
+);
 }
 
 export default App;

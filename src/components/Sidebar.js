@@ -1,65 +1,52 @@
-import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink, useLocation , Link} from "react-router-dom";
 import { Nav } from "reactstrap";
-
-import PerfectScrollbar from "perfect-scrollbar";
+import * as FaIcons from "react-icons/fa";
+import "../App.css";
+import * as AiIcons from "react-icons/ai";
+import * as IoIcons from "react-icons/io";
+import { SidebarData } from "./SidebarData";
+import { IconContext } from "react-icons";
+import { Icon } from "leaflet";
 
 var ps;
 
-function Sidebar(props) {
-    const [backgroundColor, setBackgroundColor] = React.useState("black");
-    const [activeColor, setActiveColor] = React.useState("info");
-    const location = useLocation();
-    const sidebar = React.useRef();
-    const activeRoute = (routeName) => {
-        return location.pathname.indexOf(routeName) > -1 ? "active" : "";
-      };
-    React.useEffect(() => {
-        if (navigator.platform.indexOf("Win") > -1) {
-            ps = new PerfectScrollbar(sidebar.current, {
-                suppressScrollX: true,
-                suppressScrollY: false,
-            });
-        }
-        return function cleanup() {
-            if (navigator.platform.indexOf("Win") > -1) {
-                ps.destroy();
-            }
-        };
-    });
+function Sidebar() {
+    const [sidebar, setSidebar] = useState(false);
 
-    return (
-        <div className="sidebar"
-         data-color={props.backgroundColor}>
-            <div className="sidebar-wrapper" ref={sidebar}>
-                <Nav>
-                    {props.routes.map((prop, key) => {
-                        return (
-                            <li
-                                className={
-                                    prop.upgrade
-                                        ? "active active-pro"
-                                        : prop.pro
-                                        ? "active active-pro"
-                                        : ""
-                                }
-                                key={key}
-                            >
-                                <NavLink
-                                    to={prop.layout + prop.path}
-                                    className="nav-link"
-                                    activeClassName="active"
-                                >
-                                    <i className={prop.icon} />
-                                    <p>{prop.name}</p>
-                                </NavLink>
-                            </li>
-                        );
-                    })}
-                </Nav>
+    const showSidebar = () => setSidebar(!sidebar);
+
+    return(
+        <>
+        <IconContext.Provider value={{color: '#fff'}}>
+            <div className="Sidebar">
+                <Link to="#" className = 'Menu-bars'>
+                <FaIcons.FaBars onClick={showSidebar}/>
+                </Link>
             </div>
-        </div>
-    );
+            <nav className = {sidebar ? 'nav-menu active' : 'nav-menu'}>
+                <ul className="nav-menu-items" onClick={showSidebar}>
+                    <li className="navbar-toggle">
+                        <Link to="#" className='menu-bars'>
+                            <AiIcons.AiOutlineClose/>
+                        </Link>
+                    </li>
+                    {SidebarData.map((item, index) => {
+                        return(
+                            <li key={index} className={item.cName}>
+                                <Link to={item.path}>
+                                    {item.icon}
+                                    <span>{item.title}</span>
+                                </Link>
+                            </li>
+                        )
+                    })}
+                </ul>   
+            </nav>
+        </IconContext.Provider>
+        </>
+
+    )
 }
 
 export default Sidebar;
