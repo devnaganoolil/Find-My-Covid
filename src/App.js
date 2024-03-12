@@ -16,7 +16,7 @@ function App() {
       <Router>
         <Sidebar />
         <Routes>
-          <Route path="/" exact component={Home} />
+          <Route path="/Pages/Home" exact component={Home} />
           <Route path="/reports" component={Reports} />
         </Routes>
       </Router>
