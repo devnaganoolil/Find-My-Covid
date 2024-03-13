@@ -5,11 +5,28 @@ import './styles.css'; // Import the styles
 import "./index.css";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom';
+import Home from './components/Pages/Home';
+import Reports from './components/Pages/Reports';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+    children: [
+      { path: '/', element: <Home /> },
+      { path: '/reports', element: <Reports /> }
+    ]
+
+  }
+
+])
+  
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router}/>
   </React.StrictMode>
 );
 
