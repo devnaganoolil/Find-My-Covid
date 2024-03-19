@@ -1,4 +1,5 @@
-import React from 'react';
+
+import React, { useEffect, useState } from 'react';
 import Map from '../Map';
 import {BrowserRouter as Router, Switch, Route, Routes, useLocation} from 'react-router-dom';
 import Reports from './Reports';
@@ -7,13 +8,16 @@ import './Home.css';
 
 
 function Home() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+
+
+
   return (
     <div className="Home">
-      <header className="Home-header">
-        <h1>Find My Covid</h1>
-      </header>
-        <Map />
-    </div>
+      <Map />
+      </div>
   );
 }
 

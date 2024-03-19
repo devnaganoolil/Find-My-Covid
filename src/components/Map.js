@@ -240,8 +240,10 @@ const countryCoordinates = {
     popupAnchor: [0, -32],
   });
   
-  const Map = () => {
+  const Map = ({sidebar}) => {
     const [covidData, setCovidData] = useState([]);
+
+    const mapWidth = sidebar ? 'calc(100%)' : '100%';
   
     useEffect(() => {
       const fetchData = async () => {
@@ -273,7 +275,7 @@ const countryCoordinates = {
     const zoom = 4;
   
     return (
-      <div className="map">
+      <div className="map" style={{width: mapWidth}}>
         <MapContainer center={center} zoom={zoom} minZoom={3} worldCopyJump={true} maxBoundsViscosity={1.0} style={{ height: '500px', width: '100%' }}>
           <TileLayer
             url="https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=JdbYq0IOmnjd0Jgw8cH7"

@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
-
+/*
 .Home {
-  text-align: center;
+  text-align: left;
 }
 
 .Home-logo {
@@ -17,15 +17,31 @@
 
 .Home-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 10vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: left;
+  justify-content: left;
   font-size: calc(10px + 2vmin);
   color: white;
 }
 
 .Home-link {
   color: #61dafb;
+}
+*/
+/* Home.css */
+.Home {
+  display: flex; /* Allow sidebar and map to sit side-by-side */
+}
+
+.Home .Sidebar {
+  top: 0;
+  left: 0;
+  width: 250px; /* Adjust width as needed */
+  height: 100%; 
+}
+
+.Home.sidebar-open .map {
+  margin-left: 250px; /* Shift the map by the sidebar's width */
 }

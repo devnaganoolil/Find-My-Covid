@@ -1,11 +1,22 @@
 .Sidebar {
     background-color: #060b26;
+    
     height: 80px;
     display: flex;
     justify-content: start;
     align-items: center;
   }
   
+  .toggle-container {
+    display: flex; /* Arrange icon and text horizontally */
+    align-items: right;
+  }
+  
+  .toggle-text {
+    font-size: calc(10px + 2vmin);
+    color: white;
+    align-items: right;
+  }
   .menu-bars {
     margin-left: 2rem;
     font-size: 2rem;

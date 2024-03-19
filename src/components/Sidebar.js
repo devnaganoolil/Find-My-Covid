@@ -23,6 +23,7 @@ function Sidebar() {
                 <Link to="#" className = 'Menu-bars'>
                 <FaIcons.FaBars onClick={showSidebar}/>
                 </Link>
+                <span className="toggle-text">FindMyCOVID</span> {/* Added text */}
             </div>
             <nav className = {sidebar ? 'nav-menu active' : 'nav-menu'}>
                 <ul className="nav-menu-items" onClick={showSidebar}>
