@@ -1,0 +1,14 @@
+# Ignore cache files within node_modules
+node_modules/.cache/
+# Ignore cache files
+.cache/
+# Ignore files in node_modules/.cache/default-development directory
+node_modules/.cache/default-development/*.pack
+node_modules/.cache/default-development/*.pack_
+
+
+# Ignore cache files in node_modules
+node_modules/.cache/
+
+# Ignore eslint cache
+node_modules/.cache/.eslintcache
