@@ -240,26 +240,26 @@ const countryCoordinates = {
     popupAnchor: [0, -32],
   });
   
-  const Map = ({sidebar}) => {
+  const Map = ({ sidebar }) => {
     const [covidData, setCovidData] = useState([]);
-
-    const mapWidth = sidebar ? 'calc(100%)' : '100%';
-  
+ 
+    const mapWidth = sidebar ? 'calc(100% - 500px)' : '100%'; // Adjust map width dynamically based on sidebar
+   
     useEffect(() => {
       const fetchData = async () => {
         try {
           const response = await fetch('https://covid-19-tracking.p.rapidapi.com/v1', {
             method: 'GET',
             headers: {
-              'X-RapidAPI-Key': '156cf06ba4msh2c2cdb55142a549p162ba6jsncff6594c9c0b',
+              'X-RapidAPI-Key': '658d0a55b6msheffaf1afa44728fp1a5f7bjsneaea1f966d55',
               'X-RapidAPI-Host': 'covid-19-tracking.p.rapidapi.com',
             },
           });
-  
+ 
           if (!response.ok) {
             throw new Error('Failed to fetch COVID-19 data');
           }
-  
+ 
           const data = await response.json();
           console.log('CovidMap data:', data); // Log the data
           setCovidData(data);
@@ -267,55 +267,90 @@ const countryCoordinates = {
           console.error('Error fetching COVID-19 data:', error.message);
         }
       };
-  
+ 
       fetchData();
     }, []);
-  
+ 
     const center = { lat: 37.0902, lng: -95.7129 };
     const zoom = 4;
-  
+ 
     return (
-      <div className="map" style={{width: mapWidth}}>
-        <MapContainer center={center} zoom={zoom} minZoom={3} worldCopyJump={true} maxBoundsViscosity={1.0} style={{ height: '500px', width: '100%' }}>
-          <TileLayer
-            url="https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=JdbYq0IOmnjd0Jgw8cH7"
-            tileSize={512}
-            zoomOffset={-1}
-          />
-          {/* Add markers for each country with COVID-19 data */}
-          {covidData.map((countryData) => {
-            console.log('Country Data:', countryData);
-    
-            // Check if lat and lng exist and are valid
-            if (countryCoordinates[countryData.Country_text] && countryCoordinates[countryData.Country_text].lat && countryCoordinates[countryData.Country_text].lng) {
-              const lat = countryCoordinates[countryData.Country_text].lat;
-              const lng = countryCoordinates[countryData.Country_text].lng;
-    
-              return (
-                <Marker key={countryData.Country_text} position={[lat, lng]} icon={customIcon}>
-                  <Popup>
-                  <div>
-                      <strong>Country:</strong> {countryData.Country_text} <br />
-                      <strong>Last Update:</strong> {countryData["Last Update"]} <br />
-                      <strong>Total Cases:</strong> {countryData["Total Cases_text"]} <br />
-                      <strong>New Cases:</strong> {countryData["New Cases_text"]} <br />
-                      <strong>Total Deaths:</strong> {countryData["Total Deaths_text"]} <br />
-                      <strong>New Deaths:</strong> {countryData["New Deaths_text"]} <br />
-                      <strong>Total Recovered:</strong> {countryData["Total Recovered_text"]} <br />
-                      <strong>Active Cases:</strong> {countryData["Active Cases_text"]} <br />
-                    </div>
-                  </Popup>
-                </Marker>
-              );
-            } else {
-              console.error(`Missing or invalid coordinates for country: ${countryData.Country_text}`); // Log error if coordinates are missing or invalid
-              return null; // Return null to prevent rendering an invalid marker
-            }
-          })}
-        </MapContainer>
+      <div>
+        <div className="map" style={{ width: mapWidth, paddingLeft: sidebar ? '500px' : '250px' }}>
+          <MapContainer center={center} zoom={zoom} minZoom={3} worldCopyJump={true} maxBoundsViscosity={1.0} style={{ height: '500px', width: '150%' }}>
+            <TileLayer
+              url="https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=JdbYq0IOmnjd0Jgw8cH7"
+              tileSize={512}
+              zoomOffset={-1}
+            />
+            {/* Add markers for each country with COVID-19 data */}
+            {covidData.map((countryData) => {
+              console.log('Country Data:', countryData);
+ 
+              // Check if lat and lng exist and are valid
+              if (countryCoordinates[countryData.Country_text] && countryCoordinates[countryData.Country_text].lat && countryCoordinates[countryData.Country_text].lng) {
+                const lat = countryCoordinates[countryData.Country_text].lat;
+                const lng = countryCoordinates[countryData.Country_text].lng;
+ 
+                return (
+                  <Marker key={countryData.Country_text} position={[lat, lng]} icon={customIcon}>
+                    <Popup>
+                      <div>
+                        <strong>Country:</strong> {countryData.Country_text} <br />
+                        <strong>Last Update:</strong> {countryData["Last Update"]} <br />
+                        <strong>Total Cases:</strong> {countryData["Total Cases_text"]} <br />
+                        <strong>New Cases:</strong> {countryData["New Cases_text"]} <br />
+                        <strong>Total Deaths:</strong> {countryData["Total Deaths_text"]} <br />
+                        <strong>New Deaths:</strong> {countryData["New Deaths_text"]} <br />
+                        <strong>Total Recovered:</strong> {countryData["Total Recovered_text"]} <br />
+                        <strong>Active Cases:</strong> {countryData["Active Cases_text"]} <br />
+                      </div>
+                    </Popup>
+                  </Marker>
+                );
+              } else {
+                console.error(`Missing or invalid coordinates for country: ${countryData.Country_text}`); // Log error if coordinates are missing or invalid
+                return null; // Return null to prevent rendering an invalid marker
+              }
+            })}
+          </MapContainer>
+        </div>
+       
+        {/* Table to display COVID-19 data */}
+        <div className="table-container" style={{ textAlign: 'center', paddingLeft: '500px'}}>
+          <h2>COVID-19 Data</h2>
+          <table style={{ margin: 'auto' }}>
+            <thead>
+              <tr>
+                <th>Country</th>
+                <th>Last Update</th>
+                <th>Total Cases</th>
+                <th>New Cases</th>
+                <th>Total Deaths</th>
+                <th>New Deaths</th>
+                <th>Total Recovered</th>
+                <th>Active Cases</th>
+              </tr>
+            </thead>
+            <tbody>
+              {covidData.map((countryData) => (
+                <tr key={countryData.Country_text}>
+                  <td>{countryData.Country_text}</td>
+                  <td>{countryData["Last Update"]}</td>
+                  <td>{countryData["Total Cases_text"]}</td>
+                  <td>{countryData["New Cases_text"]}</td>
+                  <td>{countryData["Total Deaths_text"]}</td>
+                  <td>{countryData["New Deaths_text"]}</td>
+                  <td>{countryData["Total Recovered_text"]}</td>
+                  <td>{countryData["Active Cases_text"]}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
-    
   };
-  
+ 
   export default Map;
+

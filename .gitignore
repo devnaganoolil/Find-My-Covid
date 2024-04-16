@@ -12,3 +12,5 @@ node_modules/.cache/
 
 # Ignore eslint cache
 node_modules/.cache/.eslintcache
+node_modules
+
