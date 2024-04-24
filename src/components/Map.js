@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import locationPinIcon from './icons/location-pin.png';
 import L from 'leaflet';
+import './Map.css'
 
 
 
@@ -276,7 +277,7 @@ const countryCoordinates = {
  
     return (
       <div>
-        <div className="map" style={{ width: mapWidth, paddingLeft: sidebar ? '500px' : '250px' }}>
+        <div className="map" style={{ width: mapWidth, width: 800}}>
           <MapContainer center={center} zoom={zoom} minZoom={3} worldCopyJump={true} maxBoundsViscosity={1.0} style={{ height: '500px', width: '150%' }}>
             <TileLayer
               url="https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=JdbYq0IOmnjd0Jgw8cH7"
@@ -317,7 +318,7 @@ const countryCoordinates = {
         </div>
        
         {/* Table to display COVID-19 data */}
-        <div className="table-container" style={{ textAlign: 'center', paddingLeft: '500px'}}>
+        <div className="table-container" style={{ textAlign: 'center', paddingLeft: '200px'}}>
           <h2>COVID-19 Data</h2>
           <table style={{ margin: 'auto' }}>
             <thead>

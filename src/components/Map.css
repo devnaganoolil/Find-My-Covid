@@ -1,0 +1,17 @@
+.table-container {
+    width: 100%;
+    border-collapse: collapse;
+    background: #323232;
+}
+
+caption,
+th, 
+td{
+    background: white;
+    padding: 1rem;
+}
+
+.map{
+    width: 200px;
+    margin: 0 auto;
+}

@@ -33,6 +33,7 @@
 /* Home.css */
 .Home {
   display: flex; /* Allow sidebar and map to sit side-by-side */
+  background: #323232;
 }
 
 .Home .Sidebar {
