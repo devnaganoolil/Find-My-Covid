@@ -34,6 +34,13 @@
 .Home {
   display: flex; /* Allow sidebar and map to sit side-by-side */
   background: #323232;
+  color: white;
+}
+.Home body{
+  color: white;
+  font-size: 1.125rem;
+  font-family: system-ui;
+  line-height: 1.5;
 }
 
 .Home .Sidebar {
